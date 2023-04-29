@@ -3,12 +3,14 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/gorilla/websocket"
 	"io"
 	"log"
 	"net/url"
 	"os"
+	"strconv"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
 var (
@@ -25,7 +27,7 @@ Example usage: ./client -ip=172.17.0.1 -conn=10
 	}
 	flag.Parse()
 
-	u := url.URL{Scheme: "ws", Host: *ip + ":8000", Path: "/"}
+	u := url.URL{Scheme: "ws", Host: *ip + ":8000", Path: "/transfers/" + strconv.FormatInt(time.Now().UnixNano(), 10)}
 	log.Printf("Connecting to %s", u.String())
 	var conns []*websocket.Conn
 	for i := 0; i < *connections; i++ {
